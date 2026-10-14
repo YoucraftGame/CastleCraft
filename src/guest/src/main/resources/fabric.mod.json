@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "skycraft",
+  "version": "${version}",
+  "name": "CastleCraft Minecraft Bridge",
+  "description": "Development integration of Minecraft Java with the real Lost Castle runtime. Modified SkyCraft/PeakCraft bridge.",
+  "authors": [
+    "CastleCraft contributors",
+    "chasmlol / SkyCraft",
+    "aeironnsarmiento / PeakCraft"
+  ],
+  "contact": {
+    "sources": "https://github.com/chasmlol/SkyCraft"
+  },
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "main": [
+      "dev.skycraft.SkyCraft"
+    ],
+    "client": [
+      "dev.skycraft.client.SkyCraftClient"
+    ]
+  },
+  "mixins": [
+    "skycraft.mixins.json",
+    {
+      "config": "skycraft.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": "~26.3",
+    "java": ">=25",
+    "fabric-api": "*"
+  },
+  "custom": {
+    "lithium:options": {
+      "mixin.entity.collisions.movement": false,
+      "mixin.entity.collisions.intersection": false,
+      "mixin.minimal_nonvanilla.collisions.empty_space": false
+    }
+  }
+}
