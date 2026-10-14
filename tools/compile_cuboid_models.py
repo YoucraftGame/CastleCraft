@@ -6,12 +6,7 @@ pack=r/'src/first-person-models'
 models=pack/'assets/castlecraft/models/parts'
 manifest=json.loads((pack/'actor-bindings.json').read_text());bindings=manifest['actors']
 data={p.stem:json.loads(p.read_text()) for p in sorted(models.glob('*.json'))}
-colors={}
-from PIL import Image
-for p in (pack/'assets/castlecraft/textures/palette').glob('*.png'):
- im=Image.open(p);assert im.size==(16,16)
- # The procedural pattern's most frequent color is its exact base.
- colors[p.stem]=max(im.getcolors(256),key=lambda x:x[0])[1]
+colors=json.loads((pack/'palette-colors.json').read_text())
 lines=['// Generated from first-person-models. Run build/compile_cuboid_models.py.',
 'using System;','using System.Collections.Generic;','namespace PeakCraft.World;',
 'internal static class CastleCuboidLibrary {',
@@ -48,5 +43,6 @@ for name,(red,green,blue,alpha) in sorted(colors.items()):
 lines+=['_=>0xFF00FFu,','};','}']
 p=r/'src/passthrough/GeneratedCastleCuboids.cs';p.write_text('\n'.join(lines)+'\n',encoding='utf-8')
 report={'models':len(data),'elements':count,'native_root_bindings':len(bindings),'bone_bindings':sum(map(len,bindings.values())),'face_uv_pixel_density_verified':True,'gameplay_verified':False,'generated_sha256':hashlib.sha256(p.read_bytes()).hexdigest(),'models_sha256':{str(p.relative_to(pack)):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(pack.rglob('*')) if p.is_file()}}
+(r/'build').mkdir(exist_ok=True)
 (r/'build/cuboid-model-verification.json').write_text(json.dumps(report,indent=2)+'\n')
 print('CUBOID COMPILE PASS:',len(data),'models,',count,'elements,',sum(map(len,bindings.values())),'native bones; actual game pending')
