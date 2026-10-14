@@ -1,0 +1,1 @@
+{"required":true,"package":"castlecraft.mixin","compatibilityLevel":"JAVA_25","mixins":["ServerMixin"],"client":["TitleMixin","CreateMixin","ClientMixin"],"injectors":{"defaultRequire":1}}

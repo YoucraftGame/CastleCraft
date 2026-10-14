@@ -1,0 +1,1 @@
+{"schemaVersion":1,"id":"castlecraft","version":"0.2.0","name":"CastleCraft","description":"Live Minecraft character, block and input bridge for Lost Castle","license":"MIT","environment":"client","entrypoints":{"main":["castlecraft.Bridge"]},"mixins":["castlecraft.mixins.json"],"depends":{"fabricloader":">=0.19.5","minecraft":"26.3","java":">=25"}}
