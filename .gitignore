@@ -1,0 +1,11 @@
+bin/
+obj/
+build/
+dist/
+.gradle/
+logs/
+run/
+runtime/
+*.user
+*.log
+.env*

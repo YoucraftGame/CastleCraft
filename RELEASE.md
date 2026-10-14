@@ -30,3 +30,5 @@
 这些记录用于说明检查范围，不是帧率承诺或全部玩法兼容保证。
 
 下载 **CastleCraft-Full-2026.10.14.zip** 安装游玩；源码下载 **CastleCraft-Sources-2026.10.14.zip**。安装包内包含中文教程，无需编译。
+
+鸣谢：开发流程及发布检查使用 rehan-remade/Universal Modder 的技能与工具：https://github.com/rehan-remade/universal-modder 。桥接参考 SkyCraft / PeakCraft，相关来源与许可见仓库 README。

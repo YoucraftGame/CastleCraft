@@ -13,4 +13,6 @@ CastleCraft 原创代码为 MIT。SkyCraft 与 PeakCraft 的 MIT 许可分别见
 - https://github.com/chasmlol/SkyCraft
 - https://github.com/aeironnsarmiento/PeakCraft
 
+开发工具与参考：rehan-remade/Universal Modder（https://github.com/rehan-remade/universal-modder），MIT。开发流程和发布检查使用其技能及 um 工具；它不是玩家运行模组时的必要前置。
+
 没有随包分发游戏本体或本机额外模组备份。

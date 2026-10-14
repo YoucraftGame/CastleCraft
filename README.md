@@ -4,7 +4,7 @@
 
 CastleCraft 把两个正在运行的游戏连在一起：前台玩失落城堡，后台的 Minecraft 负责方块、物品和生物。城堡原有的关卡、NPC、剧情和 Boss 流程仍然保留。
 
-作者：**NMCC** · Windows 单人完整版 · 2026 年 10 月 14 日
+Windows 单人完整版 · 2026 年 10 月 14 日
 
 ## 下载与安装
 
@@ -49,6 +49,8 @@ Windows 64 位、Steam 版失落城堡第一代，以及自己拥有的 Minecraf
 
 原创代码采用 [MIT 许可](LICENSE)。桥接基于 [chasmlol/SkyCraft](https://github.com/chasmlol/SkyCraft) 和 [aeironnsarmiento/PeakCraft](https://github.com/aeironnsarmiento/PeakCraft) 的工作，上游许可和来源记录随源码保留。
 
-作者 NMCC，使用 OpenAI Codex 辅助开发与整理文档；没有新增生成美术或音频。BepInEx、Doorstop、Harmony、Fabric 等组件遵循各自许可，见 [第三方说明](THIRD-PARTY.md)。
+本项目由 AI（OpenAI Codex）协助开发与整理文档，参考了下列开源项目；没有新增生成美术或音频。
+
+开发流程与发布检查使用了 [rehan-remade/Universal Modder](https://github.com/rehan-remade/universal-modder) 的技能与工具（包括 publish-mod 和 um publish check）。感谢该项目提供的模组开发方法与工具支持。BepInEx、Doorstop、Harmony、Fabric 等组件遵循各自许可，见 [第三方说明](THIRD-PARTY.md)。
 
 非官方免费模组，与两个游戏的开发商无隶属关系。游戏素材在玩家本机读取，游戏本体与其素材权利仍归原权利人。

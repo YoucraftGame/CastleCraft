@@ -1,0 +1,16 @@
+{
+  "release": "2026.10.14",
+  "build": "repair-boss-bounds-skip-20261014-131339",
+  "minecraft_version": "26.3",
+  "fabric_loader_min": "0.19.5",
+  "java_min": 25,
+  "fabric_api_version": "0.161.0+26.3",
+  "unity_version": "2021.3.25f1",
+  "game_assembly_sha256": "982e98c449a6f3271a8bd3bd52ded65b83a5f3e13c5a75635922127782e505d3",
+  "host_sha256": "8ab419438a54c0eb914e2e77b36bbc80274f47245cee1300d421cface95ea1ac",
+  "guest_sha256": "1e7a0f1dea37ba00dac2ed9a6860aa7516979e3f54a44bf08141c7c3be985909",
+  "gpu_sha256": "cd551dee95e1b4e1c7bfd9729d77ec9297479e699e3b6e9c5d93bd1566200c06",
+  "gameplay_verified": false,
+  "verification": "112 host checks; 53 Boss scene offline bounds audit; user accepted earlier smooth baseline, latest Boss gameplay pending",
+  "fabric_api_sha256": "86f16178a3cecc887a85a4cfe9a79d92fa7341d8f39b5951a4d6ad800ab657a6"
+}
