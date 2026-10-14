@@ -26,26 +26,6 @@ import org.jspecify.annotations.Nullable;
  * collected into one hit per tick and forwarded to the real actor; its own health never drops.
  */
 public class SkyrimActorEntity extends LivingEntity {
- public java.util.List<ItemStack> hunterHotbar;
- public ItemStack hunterAmmo=ItemStack.EMPTY;
- public float hunterProgress;
- public final CastleHunterActionClock hunterClock=new CastleHunterActionClock();
- public boolean hunterFired;
- public int hunterSlot;
- public int hunterTarget=-1;
- @Override public void heal(float amount){
-  float before=getHealth();super.heal(amount);
-  if(castleHunter()&&!level().isClientSide()&&getHealth()>before)
-   dev.skycraft.link.SkyLink.tryPushEvent(10,formId(),(getHealth()-before)*5,0,0,0,0,0);
- }
- private static final EntityDataAccessor<Integer> HUNTER_STATE=SynchedEntityData.defineId(SkyrimActorEntity.class,EntityDataSerializers.INT);
- public int hunterState(){return entityData.get(HUNTER_STATE);}
- public void setHunterState(int state){entityData.set(HUNTER_STATE,state);}
- private static final EntityDataAccessor<Integer> HUNTER_POSE=SynchedEntityData.defineId(SkyrimActorEntity.class,EntityDataSerializers.INT);
- public int hunterPose(){return entityData.get(HUNTER_POSE);}
- public void setHunterPose(int flags){entityData.set(HUNTER_POSE,flags);}
- public boolean castleHunter(){return (hunterPose()&CastleHunterMirror.HUNTER)!=0;}
- @Override public ItemStack getProjectile(ItemStack weapon){return castleHunter()?hunterAmmo:super.getProjectile(weapon);}
  public boolean castleHostile;
  public boolean castleMovable;
  public boolean castleUndead,castleArthropod;
@@ -100,7 +80,6 @@ public class SkyrimActorEntity extends LivingEntity {
 	@Override
 	protected void defineSynchedData(SynchedEntityData.Builder builder) {
 		super.defineSynchedData(builder);
-        builder.define(HUNTER_POSE,0);builder.define(HUNTER_STATE,0);
 		builder.define(FORM_ID, 0);
         builder.define(INTERACTIVE, false);
 		builder.define(WIDTH, 0.6F);

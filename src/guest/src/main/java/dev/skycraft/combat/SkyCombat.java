@@ -97,7 +97,7 @@ public final class SkyCombat {
 
     public static void init() {
         registerActorAttributes();
-        net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STARTING.register(server->{registerActorAttributes();CastleSpellEngineSkill.install();});
+        net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents.SERVER_STARTING.register(server->{registerActorAttributes();});
         ServerTickEvents.START_SERVER_TICK.register(SkyCombat::beforeServerTick);
         ServerTickEvents.END_SERVER_TICK.register(SkyCombat::serverTick);
         net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents.ALLOW_DAMAGE.register((victim, source, amount) -> {
@@ -156,12 +156,9 @@ public final class SkyCombat {
             ||!mob.getUUID().equals(uuid)||!mob.isAlive()||!isCastleAlly(mob)||dev.skycraft.world.BridgeSimulation.paused(mob)
             ||dev.skycraft.world.BridgeSimulation.cinematic(mob)||!Float.isFinite(nativeDamage)||nativeDamage<=0)return;
         var attacker=PROXIES.get(attackerId);var sources=level.damageSources();
-        if(attacker!=null&&attacker.castleHunter()&&CastleHunterMirror.ranged(attacker))return;
         var source=attacker==null?sources.generic():(kind&1)!=0?sources.mobProjectile(attacker,attacker):sources.mobAttack(attacker);
         float damage=nativeDamage/SKYRIM_TO_MC_DAMAGE;
-        if(attacker!=null&&attacker.castleHunter()){source=sources.mobAttack(attacker);damage=net.minecraft.world.item.enchantment.EnchantmentHelper.modifyDamage(level,attacker.getMainHandItem(),mob,source,(float)attacker.getAttributeValue(net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE));}
         boolean hit=mob.hurtServer(level,source,damage);
-        if(hit&&attacker!=null&&attacker.castleHunter())CastleHunterMirror.postAttack(attacker,mob,source,damage);
         if(hit&&attacker!=null&&(kind&4)!=0)mob.knockback(.5,attacker.getX()-mob.getX(),attacker.getZ()-mob.getZ(),source,damage);
     }
     public static void affectMob(ServerPlayer owner,int id,java.util.UUID uuid,int kind,int durationMs,int epoch){
@@ -175,9 +172,7 @@ public final class SkyCombat {
         var effect=switch(kind){case 1,4,5,7,9,10->net.minecraft.world.effect.MobEffects.SLOWNESS;case 2->net.minecraft.world.effect.MobEffects.POISON;case 6->net.minecraft.world.effect.MobEffects.NAUSEA;case 8->net.minecraft.world.effect.MobEffects.WITHER;default->null;};
         if(effect!=null)mob.addEffect(new net.minecraft.world.effect.MobEffectInstance(effect,ticks,kind==5?4:0));
     }
-    public static void hunterTarget(int actor,int target,int epoch){
-        var proxy=PROXIES.get(actor);if(proxy!=null&&proxy.castleHunter()&&epoch==dev.skycraft.world.SkyCollision.epoch())proxy.hunterTarget=target;
-    }
+    
 
     private static void beforeServerTick(MinecraftServer server) {
         CastleMobControl.tick(server);
@@ -318,17 +313,11 @@ public final class SkyCombat {
             proxy.castleHostile = actor.hostile();
             proxy.castleUndead = (actor.flags() & 128) != 0;
             proxy.castleArthropod = (actor.flags() & 256) != 0;
-            if((actor.flags()&CastleHunterMirror.HUNTER)!=0){
-                ServerPlayer owner=level.players().stream().filter(dev.skycraft.net.SkyNet::isHost).findFirst().orElse(null);
-                if(owner!=null){if(proxy.hunterHotbar==null)CastleHunterMirror.snapshot(proxy,owner);}
-            }else if(proxy.castleHunter()){
-                proxy.stopUsingItem();proxy.setHunterPose(0);proxy.setHunterState(0);
-                proxy.hunterClock.advance(0,0,false);
-            }
+            
             var maxHealth=proxy.getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH);
             if(maxHealth!=null)maxHealth.setBaseValue(CastleActorVitality.maximum(actor.flags(),actor.level()));
             float nativeHealth=CastleActorVitality.health(actor.healthFrac(),proxy.getMaxHealth());
-            if(Float.isFinite(nativeHealth))proxy.setHealth(proxy.castleHunter()?Math.max(.001F,nativeHealth):nativeHealth);
+            if(Float.isFinite(nativeHealth))proxy.setHealth(nativeHealth);
             proxy.castleMovable = (actor.flags() & 64) != 0;
             proxy.setCastleInteractable((actor.flags() & 32) != 0);
             // With rectangular-footprint flag, the unused yaw word carries floor depth in blocks.
@@ -339,10 +328,7 @@ public final class SkyCombat {
                 if (!actor.name().isEmpty()) proxy.setCustomName(Component.literal(actor.name()));
                 if (level.addFreshEntity(proxy)) PROXIES.put(actor.formId(), proxy);
             }
-            if(proxy.castleHunter()&&PROXIES.containsKey(actor.formId())){
-                ServerPlayer owner=level.players().stream().filter(dev.skycraft.net.SkyNet::isHost).findFirst().orElse(null);
-                if(owner!=null)CastleHunterMirror.pose(proxy,actor.flags(),actor.nativeState(),owner);
-            }
+            
         }
         if (PROXIES.size() != before) SkyCraft.LOG.debug("CastleCraft: {} native castle combat bodies", PROXIES.size());
     }
@@ -406,17 +392,10 @@ public final class SkyCombat {
             }
         }
 		float damage = skyrimDamage / SKYRIM_TO_MC_DAMAGE;
-        if(attacker!=null&&attacker.castleHunter()){
-            // Vanilla projectiles already carry weapon/enchantment components and their
-            // own hit timing. Do not also apply the corresponding native projectile hit.
-            if(CastleHunterMirror.ranged(attacker))return;
-            source=sources.mobAttack(attacker);
-            damage=CastleHunterMirror.damage(attacker,player,source);
-        }
+        
 		float healthBefore = player.getHealth();
 		boolean blocking = player.isBlocking();
 		boolean hurt = player.hurtServer(level, source, damage);
-        if(hurt&&attacker!=null&&attacker.castleHunter())CastleHunterMirror.postAttack(attacker,player,source,damage);
 		trainDefence(player, damage, blocking && player.getHealth() >= healthBefore - 1.0E-3F);
 		SkyCraft.LOG.info("SkyCraft: Skyrim hit the player for {} ({} Minecraft): health {} -> {}{}", skyrimDamage, damage, healthBefore, player.getHealth(),
 			hurt ? "" : " (blocked/immune)");
