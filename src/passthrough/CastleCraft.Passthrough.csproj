@@ -1,21 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
- <PropertyGroup><TargetFramework>netstandard2.1</TargetFramework><AssemblyName>CastleCraft.Passthrough</AssemblyName><AllowUnsafeBlocks>true</AllowUnsafeBlocks><LangVersion>latest</LangVersion><Nullable>enable</Nullable><EnableDefaultCompileItems>true</EnableDefaultCompileItems></PropertyGroup>
+ <PropertyGroup><CastleGameDir Condition="'$(CastleGameDir)' == ''">$(MSBuildThisFileDirectory)../../../</CastleGameDir><TargetFramework>netstandard2.1</TargetFramework><AssemblyName>CastleCraft.Passthrough</AssemblyName><AllowUnsafeBlocks>true</AllowUnsafeBlocks><LangVersion>latest</LangVersion><Nullable>enable</Nullable><EnableDefaultCompileItems>true</EnableDefaultCompileItems></PropertyGroup>
  <ItemGroup>
-  <Reference Include="UnityEngine.AnimationModule"><HintPath>../../../Lost_Castle_Data/Managed/UnityEngine.AnimationModule.dll</HintPath><Private>false</Private></Reference>
-  <Reference Include="UnityEngine.UI"><HintPath>../../../Lost_Castle_Data/Managed/UnityEngine.UI.dll</HintPath><Private>false</Private></Reference>
-  <Reference Include="UnityEngine.UIModule"><HintPath>../../../Lost_Castle_Data/Managed/UnityEngine.UIModule.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="UnityEngine.AnimationModule"><HintPath>$(CastleGameDir)/Lost_Castle_Data/Managed/UnityEngine.AnimationModule.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="UnityEngine.UI"><HintPath>$(CastleGameDir)/Lost_Castle_Data/Managed/UnityEngine.UI.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="UnityEngine.UIModule"><HintPath>$(CastleGameDir)/Lost_Castle_Data/Managed/UnityEngine.UIModule.dll</HintPath><Private>false</Private></Reference>
   <Compile Include="../generated/Rows.cs" Link="Rows.cs" />
-  <Reference Include="UnityEngine"><HintPath>../../../Lost_Castle_Data/Managed/UnityEngine.dll</HintPath><Private>false</Private></Reference>
-  <Reference Include="BepInEx"><HintPath>../../../BepInEx/core/BepInEx.dll</HintPath><Private>false</Private></Reference>
-  <Reference Include="0Harmony"><HintPath>../../../BepInEx/core/0Harmony.dll</HintPath><Private>false</Private></Reference>
-  <Reference Include="UnityEngine.CoreModule"><HintPath>../../../Lost_Castle_Data/Managed/UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
-  <Reference Include="UnityEngine.IMGUIModule"><HintPath>../../../Lost_Castle_Data/Managed/UnityEngine.IMGUIModule.dll</HintPath><Private>false</Private></Reference>
-  <Reference Include="UnityEngine.InputLegacyModule"><HintPath>../../../Lost_Castle_Data/Managed/UnityEngine.InputLegacyModule.dll</HintPath><Private>false</Private></Reference>
-  <Reference Include="UnityEngine.PhysicsModule"><HintPath>../../../Lost_Castle_Data/Managed/UnityEngine.PhysicsModule.dll</HintPath><Private>false</Private></Reference>
-  <Reference Include="UnityEngine.Physics2DModule"><HintPath>../../../Lost_Castle_Data/Managed/UnityEngine.Physics2DModule.dll</HintPath><Private>false</Private></Reference>
-  <Reference Include="UnityEngine.ParticleSystemModule"><HintPath>../../../Lost_Castle_Data/Managed/UnityEngine.ParticleSystemModule.dll</HintPath><Private>false</Private></Reference>
-  <Reference Include="UnityEngine.JSONSerializeModule"><HintPath>../../../Lost_Castle_Data/Managed/UnityEngine.JSONSerializeModule.dll</HintPath><Private>false</Private></Reference>
-  <Reference Include="UnityEngine.TextRenderingModule"><HintPath>../../../Lost_Castle_Data/Managed/UnityEngine.TextRenderingModule.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="UnityEngine"><HintPath>$(CastleGameDir)/Lost_Castle_Data/Managed/UnityEngine.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="BepInEx"><HintPath>$(CastleGameDir)/BepInEx/core/BepInEx.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="0Harmony"><HintPath>$(CastleGameDir)/BepInEx/core/0Harmony.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="UnityEngine.CoreModule"><HintPath>$(CastleGameDir)/Lost_Castle_Data/Managed/UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="UnityEngine.IMGUIModule"><HintPath>$(CastleGameDir)/Lost_Castle_Data/Managed/UnityEngine.IMGUIModule.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="UnityEngine.InputLegacyModule"><HintPath>$(CastleGameDir)/Lost_Castle_Data/Managed/UnityEngine.InputLegacyModule.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="UnityEngine.PhysicsModule"><HintPath>$(CastleGameDir)/Lost_Castle_Data/Managed/UnityEngine.PhysicsModule.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="UnityEngine.Physics2DModule"><HintPath>$(CastleGameDir)/Lost_Castle_Data/Managed/UnityEngine.Physics2DModule.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="UnityEngine.ParticleSystemModule"><HintPath>$(CastleGameDir)/Lost_Castle_Data/Managed/UnityEngine.ParticleSystemModule.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="UnityEngine.JSONSerializeModule"><HintPath>$(CastleGameDir)/Lost_Castle_Data/Managed/UnityEngine.JSONSerializeModule.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="UnityEngine.TextRenderingModule"><HintPath>$(CastleGameDir)/Lost_Castle_Data/Managed/UnityEngine.TextRenderingModule.dll</HintPath><Private>false</Private></Reference>
  </ItemGroup>
 </Project>
 

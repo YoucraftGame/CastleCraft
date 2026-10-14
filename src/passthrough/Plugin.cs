@@ -246,7 +246,6 @@ CastleMobTargets.Install(harmony);CastleActors.InstallPatches(harmony);CastleGea
  private static bool ReceiveAttack(object __instance,object __0,bool __2,ref int __result,out HitContext __state){
   var p=Instance;__state=p==null?default:p.hitContext;if(p==null||!p.owns||(__instance as Component)!=p.Hero()||!__2)return true;
   var attacker=Field(__0,"attacker") as Transform;var monster=attacker!=null?attacker.GetComponentInParent(p.monsterType):null;
-  if(monster==null&&attacker!=null&&CastleHunterMirror.HunterType!=null)monster=attacker.GetComponentInParent(CastleHunterMirror.HunterType);
   p.hitContext=new HitContext{Kind=(bool)Field(__0,"isFlyingObj")?(ushort)1:(ushort)0,Attacker=monster!=null?monster.GetInstanceID():0,Flags=Convert.ToInt32(Field(__0,"hard_value"))>=5?2:0};
   // Minecraft decides shield direction, armour, invulnerability and health before visual feedback.
   ReceiveEnvironmentDamage(__instance,Convert.ToInt32(Field(__0,"origin_damage")));
@@ -341,9 +340,6 @@ CastleMobTargets.Install(harmony);CastleActors.InstallPatches(harmony);CastleGea
   Link.Heartbeat();bool alive=Link.GuestAlive;if(alive&&!Link.ReadGuestState(ref guest))guestReadMisses++;FramePolicy(alive);
   string now=SceneManager.GetActiveScene().name;
   string key=RoomKey(now);
-  CastleHunterMirror.Choice.Observe(now=="boss_Evil_Hunter",SceneManager.GetActiveScene().handle,RoomReady());
-  if(!Input.GetKey(KeyCode.Alpha9))hunterChoiceKeyHeld=false;
-  if(HunterChoiceChord&&Input.GetKeyDown(KeyCode.Alpha9)){hunterChoiceKeyHeld=true;CastleHunterMirror.Choice.Toggle();ReleaseForwardedInput();Log.LogInfo("Hunter replacement choice: "+CastleHunterMirror.Choice.Hint);}
   if(sharedDead&&new[]{"MainMenu","GeniusUI","StatisticUI"}.Contains(now))newRunPending=true;
   if(scene!=now||roomKey!=key){bool preserve=wanted;worldVisible=wanted&&alive;render.Reset(wanted&&alive);scene=now;roomKey=key;SelectRoom(key);if(preserve){controlPhase=CastleControlPhase.Transition;SuspendControl();}epoch++;Log.LogInfo($"Room {roomKey}: origin={Coords.RoomX}, preserveControl={preserve}");}
   var hero=Hero();
@@ -394,7 +390,7 @@ CastleMobTargets.Install(harmony);CastleActors.InstallPatches(harmony);CastleGea
   bool cinematicWorld=wanted&&alive&&hero!=null&&RoomReady()&&NativeScripted()&&!NativePaused();
   if(cinematicWorld)state.flags=(uint)(Proto.HostFlags.InGame|Proto.HostFlags.Cinematic)|(collision.Available?0u:(uint)Proto.HostFlags.Loading);
   else if(!requested||NativePaused()||handoff&&!collision.Ready)state.flags|=(uint)Proto.HostFlags.Loading;
-  CastleHunterMirror.Update(worldVisible&&alive);Link.WriteHostState(state);while(Link.PopEvent(out var e)){if(worldVisible&&alive){if(e.type==11&&e.flags==epoch){actors.AcknowledgeHunter(e.formId);}else if(e.type==10&&RoomReady()&&!NativeScripted()&&!NativePaused()){actors.HealHunter(e.formId,e.a);}else if(e.type==8&&RoomReady()&&owns&&!sharedDead&&!NativePaused()&&!NativeRestrained()&&actors.CanInteract(e.formId,hero)){actors.FocusInteraction(e.formId,hero);NativeAction("PickUp");}else if(RoomReady()&&owns&&!sharedDead&&!NativeScripted()&&!NativePaused()&&!NativeRestrained())actors.Hit(e,hero,collision,epoch);}}
+  Link.WriteHostState(state);while(Link.PopEvent(out var e)){if(worldVisible&&alive){if(e.type==10||e.type==11){continue;}else if(e.type==8&&RoomReady()&&owns&&!sharedDead&&!NativePaused()&&!NativeRestrained()&&actors.CanInteract(e.formId,hero)){actors.FocusInteraction(e.formId,hero);NativeAction("PickUp");}else if(RoomReady()&&owns&&!sharedDead&&!NativeScripted()&&!NativePaused()&&!NativeRestrained())actors.Hit(e,hero,collision,epoch);}}
   sectionStart=System.Diagnostics.Stopwatch.GetTimestamp();overlay.Update();overlayMs=Millis(sectionStart);bridgeMs=Millis(frameStart);
   if(Time.unscaledTime>nextStatus){nextStatus=Time.unscaledTime+1;WriteStatus();}
   TestCommands();
@@ -431,14 +427,11 @@ CastleMobTargets.Install(harmony);CastleActors.InstallPatches(harmony);CastleGea
   renderMs=Millis(started);
  }
  private void UpdateEquipmentBeforeAvatar(){equipment.LateUpdate(owns?Hero():null,owns,Coords.ToUnity(syncedX,syncedY,syncedZ),actions.NativeWeaponVisible,FirstPersonView);}
- private static bool HunterChoiceChord=>Input.GetKey(KeyCode.LeftAlt)||Input.GetKey(KeyCode.RightAlt);
- private bool hunterChoiceKeyHeld;
- internal static bool HunterChoiceReserved=>Instance!=null&&Instance.hunterChoiceKeyHeld;
  private void PumpInput(bool blockMovement=false,bool blockCombat=false){
   bool menu=(guest.flags&(uint)Proto.GuestFlags.ScreenOpen)!=0;
   Input.imeCompositionMode=menu?IMECompositionMode.On:IMECompositionMode.Auto;
   foreach(var pair in keys){
-   bool allowed=!(pair.Key==KeyCode.Alpha9&&hunterChoiceKeyHeld)&&(menu||(!bindings.Consumes(pair.Key)&&(!blockMovement||!bindings.MovementKey(pair.Key))));
+   bool allowed=menu||(!bindings.Consumes(pair.Key)&&(!blockMovement||!bindings.MovementKey(pair.Key)));
    if(!allowed||Input.GetKeyUp(pair.Key)){if(forwardedKeys.Remove(pair.Key))Link.PushInput(Proto.InputType.Key,pair.Value,0);continue;}
    if(Input.GetKeyDown(pair.Key)||(Input.GetKey(pair.Key)&&!forwardedKeys.Contains(pair.Key))){Link.PushInput(Proto.InputType.Key,pair.Value,1);forwardedKeys.Add(pair.Key);}
   }
@@ -473,7 +466,7 @@ CastleMobTargets.Install(harmony);CastleActors.InstallPatches(harmony);CastleGea
   if(cmd=="start-solo"){var type=AccessTools.TypeByName("Teran.MainMenu");var menu=Resources.FindObjectsOfTypeAll(type).Cast<Component>().FirstOrDefault(x=>x.gameObject.activeInHierarchy);if(menu!=null)AccessTools.Method(type,"SinglePlayer").Invoke(menu,null);}
   if(cmd=="colliders")File.WriteAllLines(Path.Combine(session,"native-colliders.txt"),Resources.FindObjectsOfTypeAll<Collider2D>().Where(c=>c.gameObject.scene.IsValid()&&c.gameObject.scene.isLoaded&&c.gameObject.activeInHierarchy).Select(c=>$"{c.name}|{c.transform.parent?.name}|layer={c.gameObject.layer}|tag={c.tag}|trigger={c.isTrigger}|enabled={c.enabled}|bounds={c.bounds}"));
  }
- private void OnGUI(){if(owns&&!sharedDead){bool menu=(guest.flags&(uint)Proto.GuestFlags.ScreenOpen)!=0;overlay.Draw(menu,new Vector2(Input.mousePosition.x,Screen.height-Input.mousePosition.y));if(!menu){equipment.DrawFirstPerson();weaponSlot.Draw(bindings.CastleMouse,bindings.ToggleLabel);}if(!menu)GUI.Label(new Rect(15,Screen.height-125,Screen.width-30,30),"F8 切换角色 · F5 视角 · "+bindings.Hint);}else if(Link!=null&&Link.GuestAlive)GUI.Label(new Rect(15,Screen.height-65,Screen.width-30,30),status+" · F8 切换");GUI.Label(new Rect(15,Screen.height-165,Screen.width-30,28),"Alt+9 Minecraft Boss 替换："+CastleHunterMirror.Choice.Hint);}
+ private void OnGUI(){if(owns&&!sharedDead){bool menu=(guest.flags&(uint)Proto.GuestFlags.ScreenOpen)!=0;overlay.Draw(menu,new Vector2(Input.mousePosition.x,Screen.height-Input.mousePosition.y));if(!menu){equipment.DrawFirstPerson();weaponSlot.Draw(bindings.CastleMouse,bindings.ToggleLabel);}if(!menu)GUI.Label(new Rect(15,Screen.height-125,Screen.width-30,30),"F8 切换角色 · F5 视角 · "+bindings.Hint);}else if(Link!=null&&Link.GuestAlive)GUI.Label(new Rect(15,Screen.height-65,Screen.width-30,30),status+" · F8 切换");}
  private void CameraBefore(Camera camera){
   if(worldVisible&&render.HasAvatar)foreach(var pair in originalRenderers)if(pair.Key!=null)pair.Key.enabled=false;
   if(camera.name!="Main Camera")return;

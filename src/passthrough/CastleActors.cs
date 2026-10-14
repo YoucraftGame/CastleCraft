@@ -113,15 +113,13 @@ internal sealed class CastleActors {
   foreach(var component in candidates) {
    if(component==null || !component.gameObject.activeInHierarchy)continue;
    if(breakType.IsInstanceOfType(component) && component.GetComponent(creatureType)!=null)continue;
-   CastleHunterMirror.ObserveActor(component);
    uint id=unchecked((uint)component.GetInstanceID());
    if(!actors.TryGetValue(id,out var actor)) {
     Type type=component.GetType();
     if(!apis.TryGetValue(type,out var api))apis[type]=api=new ActorApi(type,attackType);
     actor=new NativeActor(component,api); actors[id]=actor;
-    if(CastleHunterMirror.IsHunter(component))Plugin.Log.LogInfo($"Final hunter mirror identified: actor={id}, AI={string.Join(",",component.GetComponents<Component>().Where(c=>c!=null&&CastleHunterIdentity.Matches(c.GetType().FullName)).Select(c=>c.GetType().FullName))}");
    }
-   if(CastleHunterState.Present(actor.Alive,CastleHunterMirror.IsReplacement(component)))seen.Add(id);
+   if(actor.Alive)seen.Add(id);
   }
   foreach(var id in actors.Keys.Where(id=>!seen.Contains(id)).ToArray()) {actors.Remove(id);fluidDrag.Remove(unchecked((int)id));}
   foreach(var key in mirroredDamageStatuses.Keys.Where(k=>!seen.Contains(unchecked((uint)k.actor))||Time.unscaledTime>=mirroredDamageStatuses[k]).ToArray())mirroredDamageStatuses.Remove(key);
@@ -138,7 +136,7 @@ internal sealed class CastleActors {
    int nativeMaximum=inspector==null||healthApi.maximum==null?0:Convert.ToInt32(healthApi.maximum.GetValue(inspector,null));
    bool interactive=(npcType!=null&&npcType.IsInstanceOfType(actor.Component))||(itemType!=null&&itemType.IsInstanceOfType(actor.Component))||(groundItemType!=null&&groundItemType.IsInstanceOfType(actor.Component));
    bool creature=IsCombatCreature(actor.Component);
-   writer.Write(actor.EnchantmentFlags | CastleHunterMirror.Flags(actor.Component) | (nativeMaximum>0&&nativeMaximum<=ushort.MaxValue?512u:0u) | RectangularFootprint | (creature?64u:0u) | (creature && actor.Alive && actor.Hostile ? 1u : 0u) | (interactive?32u:0u));
+   writer.Write(actor.EnchantmentFlags | (nativeMaximum>0&&nativeMaximum<=ushort.MaxValue?512u:0u) | RectangularFootprint | (creature?64u:0u) | (creature && actor.Alive && actor.Hostile ? 1u : 0u) | (interactive?32u:0u));
    writer.Write(x);writer.Write(y);writer.Write(z);
    // Flag bit4 gives the formerly unused yaw word a rectangular floor-depth meaning.
    // Older guests simply keep their square hitbox; actor record size/protocol stays v11.
@@ -147,7 +145,8 @@ internal sealed class CastleActors {
    if(inspector!=null&&healthApi.hp!=null&&healthApi.maximum!=null)healthFraction=Mathf.Clamp01(Convert.ToSingle(healthApi.hp.GetValue(inspector,null))/Math.Max(1,nativeMaximum));
    writer.Write(healthFraction);
    // Native-health flag gives the unused level word its actual max-HP meaning.
-   writer.Write((ushort)(nativeMaximum>0&&nativeMaximum<=ushort.MaxValue?nativeMaximum:1));writer.Write(CastleHunterMirror.State(actor.Component));writer.Write(actor.Name);
+   writer.Write((ushort)(nativeMaximum>0&&nativeMaximum<=ushort.MaxValue?nativeMaximum:1));writer.Write((ushort)0); // Reserved v11 actor state; no gameplay replacement.
+writer.Write(actor.Name);
   }
   link.WriteActors(stream.ToArray(),actors.Count);
   SerializeMs=Elapsed(serializeStart);
@@ -179,13 +178,7 @@ internal sealed class CastleActors {
  }
 
 
- internal void AcknowledgeHunter(uint id){if(actors.TryGetValue(id,out var actor))CastleHunterMirror.Acknowledge(actor.Component);}
- internal void HealHunter(uint id,float amount){
-  if(float.IsNaN(amount)||float.IsInfinity(amount)||amount<=0||!actors.TryGetValue(id,out var actor)||!actor.Alive||!CastleHunterMirror.IsReplacement(actor.Component))return;
-  object inspector=actor.Api.Inspector?.GetValue(actor.Component);if(inspector==null)return;
-  var hp=AccessTools.Property(inspector.GetType(),"CurrentHp");var maximum=AccessTools.Property(inspector.GetType(),"maxHp");
-  if(hp?.CanWrite==true&&maximum!=null){long total=Convert.ToInt32(hp.GetValue(inspector,null))+(long)Math.Ceiling(Math.Min(amount,int.MaxValue));hp.SetValue(inspector,(int)Math.Min(Convert.ToInt32(maximum.GetValue(inspector,null)),total),null);}
- }
+ 
 
  private void Geometry(NativeActor actor,out float x,out float y,out float z,out float width,out float height,out float depth) {
   Bounds body=actor.BodyBounds;
@@ -200,15 +193,7 @@ internal sealed class CastleActors {
   x=body.center.x/Coords.Scale+(float)Coords.RoomX;
   y=(float)Coords.YOffset+Math.Max(0,(body.min.y-floorY)/Coords.Scale);
   z=-floorY/Coords.DepthScale;
-  if(CastleHunterMirror.IsReplacement(actor.Component)) {
-   var feet=CastleGround.Position(actor.Component);
-   x=feet.x/Coords.Scale+(float)Coords.RoomX;z=-feet.y/Coords.DepthScale;
-   // Native noumenon baseline is not the collider bottom. Preserve actual jump lift.
-   var noumenon=AccessTools.Field(actor.Component.GetType(),"m_NoumenonTransform")?.GetValue(actor.Component) as Transform;
-   float baseline=Convert.ToSingle(AccessTools.Field(actor.Component.GetType(),"bodyHeight")?.GetValue(actor.Component)??0f);
-   float lift=noumenon==null||noumenon.parent==null?0:noumenon.parent.TransformVector(Vector3.up*(noumenon.localPosition.y-baseline)).y;
-   y=(float)Coords.YOffset+Math.Max(0,lift)/Coords.Scale;
-  }
+  
   width=Mathf.Clamp(body.size.x/Coords.Scale,.25f,64f);
   height=Mathf.Clamp(body.size.y/Coords.Scale,.25f,64f);
   depth=Mathf.Clamp(shadow.HasValue ? shadow.Value.size.y/Coords.DepthScale : Math.Min(width,.9f),.25f,64f);

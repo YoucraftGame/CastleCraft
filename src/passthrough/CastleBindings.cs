@@ -103,7 +103,7 @@ internal sealed class CastleBindings {
  private string? MouseAction(KeyCode key)=>key==attackKey?"Attack":key==specialKey?"SP_ATK":key==skillKey?"Skill":null;
  public void Pump(Action<string> invoke,Action<string> release,bool gameplay=true){
   ModeChanged=false;
-  if(!gameplay||Plugin.HunterChoiceReserved){ReleaseAll(release);return;}
+  if(!gameplay){ReleaseAll(release);return;}
   if(Input.GetKeyDown(toggleKey)){
    ReleaseAll(release);
    if(Input.GetKey(KeyCode.LeftControl)||Input.GetKey(KeyCode.RightControl)){equipmentEnabled.Value=!equipmentEnabled.Value;if(!equipmentEnabled.Value)castleMouse=false;}
@@ -113,7 +113,7 @@ internal sealed class CastleBindings {
   }
   // Selecting the native Minecraft hotbar is also selecting its main weapon.
   // Do this before dispatching attacks so a simultaneous click cannot hit with Castle.
-  if(castleMouse&&(Input.mouseScrollDelta.y!=0||hotbarKeys.Any(k=>Input.GetKeyDown(k)&&!(k==KeyCode.Alpha9&&(Input.GetKey(KeyCode.LeftAlt)||Input.GetKey(KeyCode.RightAlt)))))){
+  if(castleMouse&&(Input.mouseScrollDelta.y!=0||hotbarKeys.Any(k=>Input.GetKeyDown(k)))){
    ReleaseAll(release);castleMouse=false;mouseMode.Value="Minecraft";ModeChanged=true;
    Plugin.Log.LogInfo("Minecraft hotbar selection restored Minecraft main-weapon input.");
   }
