@@ -1,0 +1,9 @@
+from pathlib import Path
+import json
+root=Path(__file__).resolve().parents[1]
+(root/'sheets/rewards.json').write_text('[]\n')
+hooks=[('castle_input','castle','Teran.Hero','HandleInput','PREFIX','suppress native controls while visitor active'),('minecraft_client','minecraft','net.minecraft.client.Minecraft','tick','HEAD_TAIL','local integrated server, explicit session'),('minecraft_server','minecraft','net.minecraft.server.MinecraftServer','tickServer','TAIL','local integrated server, one player')]
+(root/'sheets/hooks.json').write_text(json.dumps([dict(zip(['id','game','type','method','phase','guard'],r))for r in hooks],indent=2))
+systems=[('transport','atomic_snapshot','Atomic session scoped pose/input/model snapshots, no rewards'),('control','F8_handoff','WASD Space Shift, mouse mining/placement, 1-9 hotbar, F8 return; release stale input'),('avatar','live_Minecraft_model','Actual PlayerModel transformed vertices and live player skin pixels'),('blocks','Minecraft_simulation','Actual blocks, inventory and interactions, export actual baked block geometry'),('physics','guest_authority','Minecraft movement, jump and block collision; native host occupancy imported as barriers'),('lifecycle','hidden_guest','Hidden Minecraft window, automatic temporary simulation world, no save selection'),('rendering','Unity_mesh_bridge','Native host MeshRenderer draws actual guest geometry in native castle scene'),('equipment','real_inventory','Actual hotbar, held item and armor, native Minecraft mining and placement rules'),('verification','actual_game_oracle','Live handoff/return, placement inventory decrement, mining time and drops')]
+(root/'sheets/systems.json').write_text(json.dumps([dict(id=a,kind=b,pollMs=50,batch=1,maxBytes=4194304,queueCap=1,protocol=2,description=c)for a,b,c in systems],indent=2))
+print('Revised all affected sheets to character handoff, removed rewards.')
