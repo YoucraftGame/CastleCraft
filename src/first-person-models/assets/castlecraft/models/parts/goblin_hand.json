@@ -1,0 +1,144 @@
+{
+  "credit": "CastleCraft original first-person cuboid reconstruction",
+  "textures": {
+    "skin": "castlecraft:palette/goblin_skin"
+  },
+  "elements": [
+    {
+      "from": [
+        2,
+        3,
+        3
+      ],
+      "to": [
+        14,
+        13,
+        13
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            12,
+            10
+          ],
+          "texture": "#skin"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            12,
+            10
+          ],
+          "texture": "#skin"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            10,
+            10
+          ],
+          "texture": "#skin"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            10,
+            10
+          ],
+          "texture": "#skin"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            12,
+            10
+          ],
+          "texture": "#skin"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            12,
+            10
+          ],
+          "texture": "#skin"
+        }
+      }
+    },
+    {
+      "from": [
+        0,
+        4,
+        2
+      ],
+      "to": [
+        3,
+        9,
+        8
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            3,
+            5
+          ],
+          "texture": "#skin"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            3,
+            5
+          ],
+          "texture": "#skin"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            6,
+            5
+          ],
+          "texture": "#skin"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            6,
+            5
+          ],
+          "texture": "#skin"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            3,
+            6
+          ],
+          "texture": "#skin"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            3,
+            6
+          ],
+          "texture": "#skin"
+        }
+      }
+    }
+  ]
+}

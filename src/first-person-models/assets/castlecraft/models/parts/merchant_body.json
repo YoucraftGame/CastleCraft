@@ -1,0 +1,350 @@
+{
+  "credit": "CastleCraft original first-person cuboid reconstruction",
+  "textures": {
+    "robe": "castlecraft:palette/merchant_robe",
+    "belt": "castlecraft:palette/leather",
+    "metal": "castlecraft:palette/gold"
+  },
+  "elements": [
+    {
+      "from": [
+        3,
+        0,
+        3
+      ],
+      "to": [
+        13,
+        14,
+        13
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            10,
+            14
+          ],
+          "texture": "#robe"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            10,
+            14
+          ],
+          "texture": "#robe"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            10,
+            14
+          ],
+          "texture": "#robe"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            10,
+            14
+          ],
+          "texture": "#robe"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            10,
+            10
+          ],
+          "texture": "#robe"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            10,
+            10
+          ],
+          "texture": "#robe"
+        }
+      }
+    },
+    {
+      "from": [
+        1,
+        0,
+        2
+      ],
+      "to": [
+        15,
+        5,
+        14
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            14,
+            5
+          ],
+          "texture": "#robe"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            14,
+            5
+          ],
+          "texture": "#robe"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            12,
+            5
+          ],
+          "texture": "#robe"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            12,
+            5
+          ],
+          "texture": "#robe"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            14,
+            12
+          ],
+          "texture": "#robe"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            14,
+            12
+          ],
+          "texture": "#robe"
+        }
+      }
+    },
+    {
+      "from": [
+        2,
+        12,
+        2
+      ],
+      "to": [
+        14,
+        15,
+        14
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            12,
+            3
+          ],
+          "texture": "#robe"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            12,
+            3
+          ],
+          "texture": "#robe"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            12,
+            3
+          ],
+          "texture": "#robe"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            12,
+            3
+          ],
+          "texture": "#robe"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            12,
+            12
+          ],
+          "texture": "#robe"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            12,
+            12
+          ],
+          "texture": "#robe"
+        }
+      }
+    },
+    {
+      "from": [
+        2,
+        5,
+        2
+      ],
+      "to": [
+        14,
+        7,
+        14
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            12,
+            2
+          ],
+          "texture": "#belt"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            12,
+            2
+          ],
+          "texture": "#belt"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            12,
+            2
+          ],
+          "texture": "#belt"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            12,
+            2
+          ],
+          "texture": "#belt"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            12,
+            12
+          ],
+          "texture": "#belt"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            12,
+            12
+          ],
+          "texture": "#belt"
+        }
+      }
+    },
+    {
+      "from": [
+        7,
+        5,
+        1
+      ],
+      "to": [
+        9,
+        7,
+        2
+      ],
+      "faces": {
+        "north": {
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ],
+          "texture": "#metal"
+        },
+        "south": {
+          "uv": [
+            0,
+            0,
+            2,
+            2
+          ],
+          "texture": "#metal"
+        },
+        "east": {
+          "uv": [
+            0,
+            0,
+            1,
+            2
+          ],
+          "texture": "#metal"
+        },
+        "west": {
+          "uv": [
+            0,
+            0,
+            1,
+            2
+          ],
+          "texture": "#metal"
+        },
+        "up": {
+          "uv": [
+            0,
+            0,
+            2,
+            1
+          ],
+          "texture": "#metal"
+        },
+        "down": {
+          "uv": [
+            0,
+            0,
+            2,
+            1
+          ],
+          "texture": "#metal"
+        }
+      }
+    }
+  ]
+}
