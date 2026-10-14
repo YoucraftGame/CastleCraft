@@ -3,14 +3,14 @@
   "id": "skycraft",
   "version": "${version}",
   "name": "CastleCraft Minecraft Bridge",
-  "description": "Development integration of Minecraft Java with the real Lost Castle runtime. Modified SkyCraft/PeakCraft bridge.",
+  "description": "Public Minecraft bridge for Lost Castle; native boss gameplay is preserved.",
   "authors": [
     "CastleCraft contributors",
     "chasmlol / SkyCraft",
     "aeironnsarmiento / PeakCraft"
   ],
   "contact": {
-    "sources": "https://github.com/chasmlol/SkyCraft"
+    "sources": "https://github.com/YoucraftGame/CastleCraft"
   },
   "license": "MIT",
   "environment": "client",
