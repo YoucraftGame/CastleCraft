@@ -137,7 +137,7 @@ internal sealed class CastleActors {
    var healthApi=HealthApi(inspector);
    int nativeMaximum=inspector==null||healthApi.maximum==null?0:Convert.ToInt32(healthApi.maximum.GetValue(inspector,null));
    bool interactive=(npcType!=null&&npcType.IsInstanceOfType(actor.Component))||(itemType!=null&&itemType.IsInstanceOfType(actor.Component))||(groundItemType!=null&&groundItemType.IsInstanceOfType(actor.Component));
-   bool creature=monsterType.IsInstanceOfType(actor.Component)||CastleHunterMirror.IsHunter(actor.Component);
+   bool creature=IsCombatCreature(actor.Component);
    writer.Write(actor.EnchantmentFlags | CastleHunterMirror.Flags(actor.Component) | (nativeMaximum>0&&nativeMaximum<=ushort.MaxValue?512u:0u) | RectangularFootprint | (creature?64u:0u) | (creature && actor.Alive && actor.Hostile ? 1u : 0u) | (interactive?32u:0u));
    writer.Write(x);writer.Write(y);writer.Write(z);
    // Flag bit4 gives the formerly unused yaw word a rectangular floor-depth meaning.
@@ -165,7 +165,7 @@ internal sealed class CastleActors {
   return api;
  }
  private void RefreshCandidates(){
-  discoveryTypes??=new[]{monsterType,scareType,breakType,npcType,itemType,groundMotionType}.Where(t=>t!=null).ToArray();
+  discoveryTypes??=new[]{monsterType,scareType,breakType,npcType,itemType,groundMotionType,fallenHunterType}.Where(t=>t!=null).ToArray();
   int index=discovery.Take(Time.unscaledTime,Time.frameCount,discoveryTypes.Length);
   if(index<0)return;
   if(index==0)discovered.Clear();
@@ -177,6 +177,7 @@ internal sealed class CastleActors {
   // Keep the previous complete sweep until all types are present; never erase other types mid-sweep.
   if(index==discoveryTypes.Length-1)candidates=discovered.ToArray();
  }
+
 
  internal void AcknowledgeHunter(uint id){if(actors.TryGetValue(id,out var actor))CastleHunterMirror.Acknowledge(actor.Component);}
  internal void HealHunter(uint id,float amount){
@@ -233,7 +234,7 @@ internal sealed class CastleActors {
   if(!actors.TryGetValue(e.formId,out var actor) || !actor.Alive)return;
   Component target=actor.Component;
   if(e.type==9) {
-   if(e.flags!=epoch||!monsterType.IsInstanceOfType(target)||!CastleExternalMotion.Valid(e.a,e.b)||!collision.Ready)return;
+   if(e.flags!=epoch||!IsCombatCreature(target)||!CastleExternalMotion.Valid(e.a,e.b)||!collision.Ready)return;
    Geometry(actor,out float x,out _,out float z,out _,out _,out _);
    if(!CastleExternalMotion.ValidOrigin(e.c,e.d,x,z))return;
    var from=CastleGround.Position(target);
@@ -346,4 +347,8 @@ internal sealed class CastleActors {
    __result*=drag.Factor;
   }
  }
+ // Fallen hunters inherit HeroBase, not Monster; never include the sibling Hero player type.
+ private readonly Type fallenHunterType=AccessTools.TypeByName("Teran.FallenHunter");
+ private bool IsCombatCreature(Component component)=>monsterType.IsInstanceOfType(component)||(fallenHunterType!=null&&fallenHunterType.IsInstanceOfType(component));
 }
+
