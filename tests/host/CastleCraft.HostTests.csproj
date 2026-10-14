@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+ <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><AllowUnsafeBlocks>true</AllowUnsafeBlocks><Nullable>enable</Nullable></PropertyGroup>
+ <ItemGroup>
+  <Compile Include="../../src/passthrough/CastleLifeGate.cs" Link="CastleLifeGate.cs" />
+  <Compile Include="../../src/passthrough/CastleVoxelSkin.cs" Link="CastleVoxelSkin.cs" />
+  <Compile Include="../../src/passthrough/CastleChestSkin.cs" Link="CastleChestSkin.cs" />
+  <Compile Include="../../src/passthrough/CastleChestFrames.cs" Link="CastleChestFrames.cs" />
+  <Compile Include="../../src/passthrough/CastleSpritePixels.cs" Link="CastleSpritePixels.cs" />
+  <Compile Include="../../src/passthrough/CastleSpriteUv.cs" Link="CastleSpriteUv.cs" />
+  <Compile Include="../../src/passthrough/CastleCuboidData.cs" Link="CastleCuboidData.cs" />
+  <Compile Include="../../src/passthrough/GeneratedCastleCuboids.cs" Link="GeneratedCastleCuboids.cs" />
+  <Compile Include="../../src/passthrough/CastleLook.cs" Link="CastleLook.cs" />
+  <Compile Include="../../src/passthrough/CastleRoomOrigins.cs" Link="CastleRoomOrigins.cs" />
+  <Compile Include="../../src/passthrough/CastleNativeFlow.cs" Link="CastleNativeFlow.cs" />
+  <Compile Include="../../src/passthrough/CastleCollisionBounds.cs" Link="CastleCollisionBounds.cs" />
+  <Compile Include="../../src/passthrough/CastleBoundaryEdges.cs" Link="CastleBoundaryEdges.cs" />
+  <Compile Include="../../src/passthrough/CastleStageClassification.cs" Link="CastleStageClassification.cs" />
+  <Compile Include="../../src/passthrough/CastleSurfaceRules.cs" Link="CastleSurfaceRules.cs" />
+  <Compile Include="../../src/passthrough/CastleSpawnStability.cs" Link="CastleSpawnStability.cs" />
+  <Compile Include="../../src/passthrough/CastleEnchantmentTargets.cs" Link="CastleEnchantmentTargets.cs" />
+  <Compile Include="../../src/passthrough/CastleGearRules.cs" Link="CastleGearRules.cs" />
+  <Compile Include="../../src/passthrough/CastleStruggleInput.cs" Link="CastleStruggleInput.cs" />
+  <Compile Include="../../src/passthrough/CastlePose.cs" Link="CastlePose.cs" />
+  <Compile Include="../../src/passthrough/upstream/Link/Rings.cs" Link="Rings.cs" />
+  <Compile Include="../../src/passthrough/CastleControlGate.cs" Link="CastleControlGate.cs" />
+  <Compile Include="../../src/passthrough/CastleHandoff.cs" Link="CastleHandoff.cs" />
+  <Compile Include="../../src/passthrough/CastleExternalMotion.cs" Link="CastleExternalMotion.cs" />
+  <Compile Include="../../src/passthrough/upstream/Link/Proto.cs" Link="Proto.cs" />
+  <Reference Include="BepInEx"><HintPath>../../../BepInEx/core/BepInEx.dll</HintPath></Reference>
+  <Compile Include="../../src/passthrough/CastleHunterChoice.cs" Link="CastleHunterChoice.cs" />
+  <Compile Include="../../src/passthrough/CastleHunterIdentity.cs" Link="CastleHunterIdentity.cs" />
+  <Compile Include="../../src/passthrough/CastleMobTargetRules.cs" Link="CastleMobTargetRules.cs" />
+  <Compile Include="../../src/passthrough/CastleMobTargetAccess.cs" Link="CastleMobTargetAccess.cs" />
+  <Compile Include="../../src/passthrough/CastleHunterState.cs" Link="CastleHunterState.cs" />
+   <Compile Include="../../src/passthrough/CastleActorScanSchedule.cs" Link="CastleActorScanSchedule.cs" />
+ </ItemGroup>
+</Project>
