@@ -1,0 +1,15 @@
+{
+  "source": "https://github.com/aeironnsarmiento/PeakCraft",
+  "commit": "d07030ee527ee2a2facc989f5acae8a317968c02",
+  "license": "MIT",
+  "credits": [
+    "chasmlol / SkyCraft",
+    "aeironnsarmiento / PeakCraft"
+  ],
+  "adaptations": [
+    "Lost Castle host adapter",
+    "2.5D coordinate projection",
+    "native built-in sprite materials",
+    "no PEAK mirrors"
+  ]
+}
