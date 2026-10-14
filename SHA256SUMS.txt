@@ -1,2 +1,2 @@
-72ee936d46cb60ae78919718135d536c964ebdcda2f4c2f5fdc08ed8f8eb698b  CastleCraft-Full-2026.10.14.zip
-0ba975d44dd1833fe4cfa47a7af646dc7e0f3a25c08ba4dd6af18eb8f2ad0a87  CastleCraft-Sources-2026.10.14.zip
+0455c10ee27a863c09c8b25f25b5d5d84c0b965e3bf5f52e725355f472ec27b4  CastleCraft-Full-2026.10.14-r2.zip
+d5a69809d4a7be4a09e97a567c695930fa7818bbd666e4c154039acff6aaa4cf  CastleCraft-Sources-2026.10.14-r2.zip
