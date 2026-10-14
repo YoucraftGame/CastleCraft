@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
- <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><AllowUnsafeBlocks>true</AllowUnsafeBlocks><Nullable>enable</Nullable></PropertyGroup>
+ <PropertyGroup><CastleGameDir Condition="'$(CastleGameDir)' == ''">$(MSBuildThisFileDirectory)../../../</CastleGameDir><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><AllowUnsafeBlocks>true</AllowUnsafeBlocks><Nullable>enable</Nullable></PropertyGroup>
  <ItemGroup>
   <Compile Include="../../src/passthrough/CastleLifeGate.cs" Link="CastleLifeGate.cs" />
   <Compile Include="../../src/passthrough/CastleVoxelSkin.cs" Link="CastleVoxelSkin.cs" />
@@ -26,12 +26,9 @@
   <Compile Include="../../src/passthrough/CastleHandoff.cs" Link="CastleHandoff.cs" />
   <Compile Include="../../src/passthrough/CastleExternalMotion.cs" Link="CastleExternalMotion.cs" />
   <Compile Include="../../src/passthrough/upstream/Link/Proto.cs" Link="Proto.cs" />
-  <Reference Include="BepInEx"><HintPath>../../../BepInEx/core/BepInEx.dll</HintPath></Reference>
-  <Compile Include="../../src/passthrough/CastleHunterChoice.cs" Link="CastleHunterChoice.cs" />
-  <Compile Include="../../src/passthrough/CastleHunterIdentity.cs" Link="CastleHunterIdentity.cs" />
+  <Reference Include="BepInEx"><HintPath>$(CastleGameDir)/BepInEx/core/BepInEx.dll</HintPath></Reference>
   <Compile Include="../../src/passthrough/CastleMobTargetRules.cs" Link="CastleMobTargetRules.cs" />
   <Compile Include="../../src/passthrough/CastleMobTargetAccess.cs" Link="CastleMobTargetAccess.cs" />
-  <Compile Include="../../src/passthrough/CastleHunterState.cs" Link="CastleHunterState.cs" />
    <Compile Include="../../src/passthrough/CastleActorScanSchedule.cs" Link="CastleActorScanSchedule.cs" />
  </ItemGroup>
 </Project>
