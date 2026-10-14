@@ -54,7 +54,7 @@ public final class SkyCraftClient implements ClientModInitializer {
 			}
 		});
 		// Skyrim draws the real NPC; its Minecraft stand-in is only a hitbox.
-		EntityRendererRegistry.register(SkyCombat.SKYRIM_ACTOR, dev.skycraft.client.render.CastleHunterEntityRenderer::new);
+		EntityRendererRegistry.register(SkyCombat.SKYRIM_ACTOR, NoopRenderer::new);
 		// Players (client-side movement AND the integrated server's re-check of it) use the smooth
 		// triangle collider, never Skyrim's voxels; otherwise the server sees the smooth position
 		// dip into a voxel and teleports the player back every few ticks.

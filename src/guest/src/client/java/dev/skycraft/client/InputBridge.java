@@ -42,9 +42,7 @@ public final class InputBridge {
         long session = SkyClient.sessionId();
         long handle = minecraft.getWindow().handle();
 		switch (type) {
-            case 23 -> {
-                var server=minecraft.getSingleplayerServer();if(dev.skycraft.SkyCraft.isMirrorServer(server))server.execute(()->{if(session==SkyClient.sessionId()&&SkyClient.linked()&&minecraft.getSingleplayerServer()==server)dev.skycraft.combat.SkyCombat.hunterTarget(a,b,c);});
-            }
+            
             case 20 -> {
                 var target=minecraft.level==null?null:minecraft.level.getEntity(a);
                 if(mobContexts.size()>128)mobContexts.clear();
