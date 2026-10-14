@@ -7,3 +7,6 @@ This library is currently authored, not installed. The runtime must explicitly b
 Six root names and their verified native bone names are mapped. Unmapped weapons, eyes, clothes, effect overlays and unknown actors remain explicit pending work; the prototype does not constitute all-scene or full-actor completion.
 
 User texture constraint: final models must bind the original Lost Castle textures. Palette PNGs are discarded design prototypes for geometry preview, not approved final art. Do not deploy the palette renderer until native atlas UV/alpha bindings are implemented and verified.
+
+
+Public source contains no PNG preview textures. Palette base colors are stored as numeric RGBA values in palette-colors.json; the model compiler uses that JSON. Game textures are read at runtime from the player’s installation.
