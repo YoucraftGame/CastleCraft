@@ -1,0 +1,73 @@
+{
+  "scope": "first_person_only",
+  "actors": {
+    "goblin_drudgery": {
+      "head": "goblin_head",
+      "body": "goblin_body",
+      "Lhand": "goblin_hand",
+      "Rhand": "goblin_hand",
+      "Lfoot": "boot",
+      "Rfoot": "boot"
+    },
+    "goblin_mage": {
+      "weapon": "goblin_staff",
+      "head": "goblin_head",
+      "body": "goblin_body",
+      "hat": "mage_hat",
+      "Lhand": "goblin_hand",
+      "Rhand": "goblin_hand",
+      "Lfoot": "boot",
+      "Rfoot": "boot"
+    },
+    "goblin_berserker": {
+      "weapon": "goblin_axe",
+      "head": "goblin_head",
+      "body": "goblin_body",
+      "hat": "berserker_helmet",
+      "Lhand": "goblin_hand",
+      "Rhand": "goblin_hand",
+      "Lfoot": "boot",
+      "Rfoot": "boot"
+    },
+    "npc_mysterious_merchant": {
+      "body": "merchant_body",
+      "helmet": "merchant_hood",
+      "Lhand": "merchant_hand",
+      "Rhand": "merchant_hand",
+      "Lfoot": "boot",
+      "Rfoot": "boot",
+      "L_leg": "merchant_leg",
+      "R_leg": "merchant_leg"
+    },
+    "npc_cattiness_merchant": {
+      "body": "merchant_body",
+      "helmet": "merchant_head",
+      "Lfoot": "boot",
+      "Rfoot": "boot"
+    },
+    "goldChest": {
+      "noumenon": "chest_base",
+      "cap": "chest_lid"
+    }
+  },
+  "replaced_overlays": {
+    "goblin_drudgery": [
+      "eye"
+    ],
+    "goblin_mage": [
+      "eye"
+    ],
+    "goblin_berserker": [
+      "eye"
+    ],
+    "npc_mysterious_merchant": [
+      "clothes"
+    ],
+    "npc_cattiness_merchant": [
+      "clothes"
+    ]
+  },
+  "status": "authored_not_installed",
+  "animation_owner": "native Transform hierarchy",
+  "unknown_parts": "retain existing renderer and record unmapped; never silently claim complete actor"
+}
