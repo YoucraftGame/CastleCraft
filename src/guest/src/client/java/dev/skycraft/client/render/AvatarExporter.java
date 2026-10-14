@@ -315,7 +315,6 @@ final class AvatarExporter implements SubmitNodeCollector {
 	}
 
 	private void exportScene(Minecraft minecraft, SkyAtlas atlas, float partialTick) {
-        var mirroredHunters=new ArrayList<SkyrimActorEntity>();
 		this.atlas = atlas;
 		var level = minecraft.level;
 		var player = minecraft.player;
@@ -332,7 +331,7 @@ final class AvatarExporter implements SubmitNodeCollector {
 		PoseStack pose = new PoseStack();
 		var candidates=new ArrayList<Entity>();
         for(Entity e:level.entitiesForRendering()){
-         if(e!=player&&!(e instanceof ItemEntity)&&!(e instanceof AbstractArrow)&&!(e instanceof ItemSupplier)&&(!(e instanceof SkyrimActorEntity actor)||actor.castleHunter())
+         if(e!=player&&!(e instanceof ItemEntity)&&!(e instanceof AbstractArrow)&&!(e instanceof ItemSupplier)&&!(e instanceof SkyrimActorEntity)
             &&e.distanceToSqr(cam)<=SCENE_RANGE*SCENE_RANGE)candidates.add(e);
         }
         int entities=0;
@@ -341,10 +340,9 @@ final class AvatarExporter implements SubmitNodeCollector {
 			this.sceneGroup = entities;
 			this.sceneFloorZ = (float)(e.getZ() - origin[2]);
 			try {
-				EntityRenderState state = e instanceof SkyrimActorEntity actor&&actor.castleHunter()?CastleHunterRender.extract(minecraft,actor,partialTick):dispatcher.extractEntity(e, dev.skycraft.world.BridgeSimulation.paused(e)?0:partialTick);
+				EntityRenderState state = dispatcher.extractEntity(e, dev.skycraft.world.BridgeSimulation.paused(e)?0:partialTick);
 				dispatcher.submit(state, cameraState, state.x - origin[0], state.y - origin[1], state.z - origin[2], pose, this);
                 this.capture.flush();
-                if(e instanceof SkyrimActorEntity actor&&actor.castleHunter()&&usedBatches.stream().anyMatch(batch->batch.group==this.sceneGroup&&batch.count>=4))mirroredHunters.add(actor);
 			} catch (RuntimeException ex) {
 				if (!warnedEntity) {
 					warnedEntity = true;
@@ -370,8 +368,6 @@ final class AvatarExporter implements SubmitNodeCollector {
 		this.capture.flush();
 		this.offX = this.offY = this.offZ = 0.0F;
 		this.send(Proto.REN_SCENE, origin);
-        if(this.lastSendSucceeded)for(var actor:mirroredHunters)if(CastleHunterRender.receiptDue(actor))
-            dev.skycraft.link.SkyLink.tryPushEvent(11,actor.formId(),0,0,0,0,dev.skycraft.client.SkyClient.sky().collisionEpoch,0);
 	}
 
 	/**
